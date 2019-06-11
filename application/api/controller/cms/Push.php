@@ -6,7 +6,7 @@
 *Time: 16:19:
 */
 namespace app\api\controller\cms;
-use app\lib\task\LinTask;
+use app\lib\swoole\LinTask;
 use think\Request;
 use think\Controller;
 /*
@@ -24,9 +24,8 @@ class Push extends Controller
     public function email(Request $request)
     {
         $data = $request -> post();
-        //异步任务
-        LinTask::custom('wechat',$data);#自定义任务
-        LinTask::email($data['to'], $data['title'], $data['content']);#内置任务
+        //进行发送数据
+        LinTask::sendEmail($data['to'], $data['title'], $data['content']);
         //发送成功
         return writeJson(201,'','ok',0);
     }
